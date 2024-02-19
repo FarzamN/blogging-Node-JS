@@ -1,19 +1,13 @@
 import express from "express";
-import cors from "cors";
 import mongoose from "mongoose";
-import dotenv from "dotenv";
+import { config } from "dotenv";
+import authRoutes from "./src/routes/userRoute.js";
 
-dotenv.config();
+config();
 const app = express();
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 const port = process.env.PORT || 8010;
-
-// mongoose.connect(process.env.MONGO_URL, {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true,
-//   useCreateIndex: true,
-//   useFindAndModify: false,
-// });
-
 mongoose.connect(process.env.MONGO_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -39,4 +33,6 @@ process.on("SIGINT", () => {
 });
 
 app.get("/", (req, res) => res.send("Hello World!"));
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+app.use("/auth", authRoutes);
+
+app.listen(port, () => console.log(`Blogging app listening on port ${port}!`));
