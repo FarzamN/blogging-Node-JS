@@ -1,26 +1,17 @@
-import User from "../module/userModule.js";
+import User from "../module/authModule.js";
+import asyncHandler from "express-async-handler";
 
-const login = async (req, res) => {
-  res.status(200).json({ message: "this is login function" });
-  //   const { email, password } = req.body;
-};
-
-const register = async (req, res) => {
-  const { fullName, email, password, phone, profile_image, role } = req.body;
+export const getAllUser = asyncHandler(async (_, res) => {
   try {
-    await User.create({
-      fullName,
-      email,
-      password,
-      phone,
-      profile_image,
-      role,
+    const users = await User.find();
+    return res.status(200).json({
+      status: 200,
+      message: "Users fetched successfully",
+      data: users,
     });
-    return res.status(200).json({ message: "User registered successfully" });
   } catch (error) {
-    console.error("Error registering user:", error);
-    return res.status(500).json({ message: "Internal server error" });
+    return res
+      .status(500)
+      .json({ status: 500, message: "500 internel server error" });
   }
-};
-
-export { login, register };
+});
