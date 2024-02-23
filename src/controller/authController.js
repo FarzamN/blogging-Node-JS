@@ -62,48 +62,6 @@ export const checkEmailnPhone = asyncHandler(async (req, res) => {
   }
 });
 
-// export const register = asyncHandler(async (req, res) => {
-//   const { fullName, email, password, phone, profile_image, role } = req.body;
-//   try {
-//     const existingUser = await User.findOne({ email });
-//     const phoneExist = await User.findOne({ phone });
-//     const avatar = req.file ? req.file.filename : null;
-
-//     if (!fullName || !email || !password || !phone || !profile_image || !role) {
-
-//     } else if (existingUser) {
-//       return res
-//         .status(200)
-//         .json({ status: 400, message: "Email already exists" });
-//     } else if (phoneExist) {
-//       return res
-//         .status(200)
-//         .json({ status: 400, message: "Phone already exists" });
-//     } else {
-//       const hashedPassword = await bcrypt.hash(password, 10);
-
-//       const result = await User.create({
-//         fullName,
-//         email,
-//         password: hashedPassword,
-//         phone,
-//         profile_image: avatar,
-//         role,
-//       });
-//       return res.status(200).json({
-//         status: 200,
-//         message: "User registered successfully",
-//         data: result,
-//       });
-//     }
-//   } catch (error) {
-//     console.error("Error registering user:", error);
-//     return res
-//       .status(500)
-//       .json({ status: 500, message: "Internal server error" });
-//   }
-// });
-
 export const register = asyncHandler(async (req, res) => {
   const { fullName, email, password, phone, role } = req.body;
   try {
@@ -220,7 +178,15 @@ export const changePassword = asyncHandler(async (req, res) => {
 export const editProfile = asyncHandler(async (req, res) => {
   const { fullName, email, phone } = req.body;
   const profile_image = req.file ? req.file.filename : null;
-  const { id } = req.params;
+  const { _id } = req.params;
+
+  const existingEmailUser = await User.findOne({ email });
+  const existingPhoneUser = await User.findOne({ phone });
+
+  const isEmailTaken = existingEmailUser && existingEmailUser._id != _id;
+  const isPhoneTaken = existingPhoneUser && existingPhoneUser._id != _id;
+  const user = await User.findById(_id);
+
   try {
     if (!fullName || !email || !phone) {
       return res.status(200).json({
@@ -230,12 +196,6 @@ export const editProfile = asyncHandler(async (req, res) => {
         } is required`,
       });
     }
-
-    const existingEmailUser = await User.findOne({ email });
-    const existingPhoneUser = await User.findOne({ phone });
-
-    const isEmailTaken = existingEmailUser && existingEmailUser._id != id;
-    const isPhoneTaken = existingPhoneUser && existingPhoneUser._id != id;
     if (isEmailTaken || isPhoneTaken) {
       return res.status(400).json({
         status: 400,
@@ -243,7 +203,6 @@ export const editProfile = asyncHandler(async (req, res) => {
       });
     }
 
-    const user = await User.findById(id);
     if (!user) {
       return res.status(200).json({ status: 400, message: "User not found" });
     }
@@ -256,7 +215,6 @@ export const editProfile = asyncHandler(async (req, res) => {
     }
 
     await user.save();
-
     return res.status(200).json({
       status: 200,
       message: "Profile updated successfully",
