@@ -13,9 +13,9 @@ const storage = multer.diskStorage({
   },
 });
 
-const upload = multer();
-const upload2 = multer({ storage });
+const no_upload = multer().none();
+const upload_single = multer({ storage }).single("profile_image");
 
-router.get("/allUser", upload.none(), getAllUser);
+router.get("/allUser", getAllUser);
 
 export default router;

@@ -28,14 +28,14 @@ const storage = multer.diskStorage({
   },
 });
 
-const upload = multer();
-const upload2 = multer({ storage });
+const no_upload = multer().none();
+const upload_single = multer({ storage }).single("profile_image");
 
-router.post("/login", upload.none(), login);
-router.post("/register", upload2.single("profile_image"), register);
-router.post("/checkEmailnPhone", upload.none(), checkEmailnPhone);
-router.post("/checktoForgetPassword", upload.none(), checktoForgetPassword);
-router.post("/changePassword/:_id", upload.none(), changePassword);
-router.post("/editProfile/:_id", upload2.single("profile_image"), editProfile);
+router.post("/login", no_upload, login);
+router.post("/register", upload_single, register);
+router.post("/checkEmailnPhone", no_upload, checkEmailnPhone);
+router.post("/checktoForgetPassword", no_upload, checktoForgetPassword);
+router.post("/changePassword/:_id", no_upload, changePassword);
+router.post("/editProfile/:_id", upload_single, editProfile);
 
 export default router;

@@ -1,8 +1,8 @@
 import express from "express";
 import { config } from "dotenv";
-import { Dbcon } from "./src/db/db.js";
 import authRoutes from "./src/routes/authRoute.js";
 import userRoute from "./src/routes/userRoute.js";
+import { Dbcon } from "./src/Config/Configration.js";
 
 config();
 Dbcon();
