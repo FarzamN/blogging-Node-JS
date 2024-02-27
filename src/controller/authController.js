@@ -1,6 +1,7 @@
 import User from "../model/authModel.js";
 import bcrypt from "bcrypt";
 import asyncHandler from "express-async-handler";
+import { randomInt } from "crypto";
 
 export const login = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
@@ -49,7 +50,7 @@ export const checkEmailnPhone = asyncHandler(async (req, res) => {
         message: `${checkEmail ? "email" : "phone"} already exists`,
       });
     } else {
-      const otp = Math.floor(1000 + Math.random() * 9999);
+      const otp = randomInt(1000, 9999);
       return res
         .status(200)
         .json({ status: 200, message: "Email and phone are available", otp });
@@ -119,7 +120,7 @@ export const checktoForgetPassword = asyncHandler(async (req, res) => {
   const { email, phone } = req.body;
   const checkEmail = await User.findOne({ email });
   const checkPhone = await User.findOne({ phone });
-  const otp = Math.floor(1000 + Math.random() * 9999);
+  const otp = randomInt(1000, 9999);
   try {
     if (!checkEmail || !checkPhone) {
       return res.status(200).json({
