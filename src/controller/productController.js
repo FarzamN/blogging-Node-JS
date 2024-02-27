@@ -12,9 +12,12 @@ export const addProduct = asyncHandler(async (req, res) => {
     category_name,
   } = req.body;
   const { _id } = req.params;
-  const product_images = req.file ? req.file.filename : null;
+  const product_images = req.files.map((file) => ({
+    filename: file.filename,
+    url: `${process.env.BASE_URL}uploads/` + file.filename,
+  }));
   const user = await User.findById(_id);
-
+  console.log(product_images);
   try {
     if (
       !product_name ||
@@ -56,6 +59,7 @@ export const addProduct = asyncHandler(async (req, res) => {
         product_price,
         product_discount,
         category_name,
+        product_images,
       });
       return res
         .status(200)
