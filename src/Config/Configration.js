@@ -5,7 +5,7 @@ const Dbcon = async () => {
   try {
     const conn = await connect(process.env.MONGO_URL);
     console.log(
-      chalk.cyan.underline(`MongoDB connected: ${conn.connection.host}`)
+      chalk.hex("#DEADED").italic`MongoDB connected: ${conn.connection.host}`
     );
   } catch (error) {
     console.log(error);

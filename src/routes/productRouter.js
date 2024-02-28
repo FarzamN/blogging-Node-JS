@@ -30,6 +30,6 @@ router.post("/addProduct/:_id", upload, addProduct);
 router.get("/getAddProduct", no_upload, getAddProduct);
 router.get("/getSingleProduct/:_id", no_upload, getSingleProduct);
 router.delete("/deleteProduct/:_id", no_upload, deleteProduct);
-router.post("/updateProduct/:_id", upload, updateProduct);
+router.patch("/updateProduct/:_id", upload, updateProduct);
 
 export default router;
