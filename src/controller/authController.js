@@ -17,8 +17,13 @@ export const login = asyncHandler(async (req, res) => {
       return res.status(200).json({ status: 400, message: "Invalid email" });
     }
 
-    const isPasswordValid = await bcrypt.compare(password, user.password);
-    user.password = password;
+    // const isPasswordValid = await bcrypt.compare(password, user.password);
+    // user.password = password;
+    // if (!isPasswordValid) {
+    //   return res.status(200).json({ status: 400, message: "Invalid Password" });
+    // }
+    const isPasswordValid = password == user.password;
+    // user.password = password;
     if (!isPasswordValid) {
       return res.status(200).json({ status: 400, message: "Invalid Password" });
     }
@@ -30,7 +35,7 @@ export const login = asyncHandler(async (req, res) => {
     console.error("Error logging in:", error);
     return res
       .status(500)
-      .json({ status: 500, message: "Internal server error" });
+      .json({ status: 500, message: "Internal server error", error });
   }
 });
 

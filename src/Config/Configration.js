@@ -1,14 +1,12 @@
-import { connect } from "mongoose";
 import chalk from "chalk";
+import { connect } from "mongoose";
 
 const Dbcon = async () => {
   try {
-    const conn = await connect(process.env.MONGO_URL);
-    console.log(
-      chalk.hex("#DEADED").italic`MongoDB connected: ${conn.connection.host}`
-    );
+    await connect(process.env.MONGO_URL);
+    console.log(chalk.hex("#DEADED").italic("MongoDB connected"));
   } catch (error) {
-    console.log(error);
+    console.log(chalk.hex("#ff5252").italic(`MongoDB error: 💥💥💥� ${error}`));
   }
 };
 
