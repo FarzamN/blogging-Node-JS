@@ -1,6 +1,8 @@
 import chalk from "chalk";
 import { connect } from "mongoose";
+import { config } from "dotenv";
 
+config();
 const Dbcon = async () => {
   try {
     await connect(process.env.MONGO_URL);
