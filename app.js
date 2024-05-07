@@ -14,9 +14,13 @@ config();
 Dbcon();
 
 const app = express();
-const config = {};
+const coreConfig = {
+  origin: "*",
+  Credential: true,
+  methods: ["POST", "GET", "PUT", "DELETE"],
+};
 app.use(json());
-app.use(cors());
+app.use(cors(coreConfig));
 app.use(urlencoded({ extended: false }));
 const port = process.env.PORT || 8010;
 
