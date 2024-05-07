@@ -17,10 +17,11 @@ const app = express();
 const coreConfig = {
   origin: "*",
   Credential: true,
-  methods: ["POST", "GET", "PUT", "DELETE"],
+  methods: ["POST", "GET", "PUT", "DELETE", "OPTIONS"],
 };
 app.use(json());
 app.use(cors(coreConfig));
+app.options("", cors(coreConfig));
 app.use(urlencoded({ extended: false }));
 const port = process.env.PORT || 8010;
 
