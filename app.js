@@ -8,20 +8,23 @@ import {
 } from "./src/routes/index.js";
 import express, { json, urlencoded } from "express";
 import { Dbcon } from "./src/Config/Configration.js";
+import cors from "cors";
 
 config();
 Dbcon();
 
 const app = express();
+const config = {};
 app.use(json());
+app.use(cors());
 app.use(urlencoded({ extended: false }));
 const port = process.env.PORT || 8010;
 
-app.get("/", (_, res) => res.send("Blogging app!"));
 app.use("/auth", authRoute);
 app.use("/user", userRoute);
 app.use("/product", productRouter);
 app.use("/category", categoryRouter);
+app.get("/", (_, res) => res.send("Blogging app!"));
 
 app.listen(port, () =>
   console.log(
