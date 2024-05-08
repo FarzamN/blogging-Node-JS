@@ -1,11 +1,6 @@
 import chalk from "chalk";
 import { config } from "dotenv";
-import {
-  authRoute,
-  productRouter,
-  userRoute,
-  categoryRouter,
-} from "./src/routes/index.js";
+import { authRoute } from "./src/routes/index.js";
 import express, { json, urlencoded } from "express";
 import { Dbcon } from "./src/Config/Configration.js";
 import cors from "cors";
