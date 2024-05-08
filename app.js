@@ -17,7 +17,7 @@ const app = express();
 const coreConfig = {
   origin: "*",
   Credential: true,
-  methods: ["POST", "GET", "PUT", "DELETE", "OPTIONS"],
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
 };
 app.use(json());
 app.use(cors(coreConfig));
