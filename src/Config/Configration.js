@@ -8,6 +8,7 @@ const Dbcon = async () => {
     await connect(process.env.MONGO_URL);
     console.log(chalk.hex("#DEADED").italic("MongoDB connected"));
   } catch (error) {
+    authRoute;
     console.log(chalk.hex("#ff5252").italic(`MongoDB error: 💥💥💥� ${error}`));
   }
 };
